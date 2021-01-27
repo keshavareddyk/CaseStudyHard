@@ -38,9 +38,17 @@ namespace CaseStudyHard
                         PrintAllEmployees();
                         break;
                     case 4:
-                        Console.WriteLine("Please enter the Employee ID");
-                        int id = Convert.ToInt32(Console.ReadLine());
-                        PrintEmployeeWithId(id);
+                        s1: Console.WriteLine("Please enter the Employee ID");
+                        try
+                        {
+                            int id = Convert.ToInt32(Console.ReadLine());
+                            PrintEmployeeWithId(id);
+                        }
+                        catch(Exception e)
+                        {
+                            Console.WriteLine("Invalid input format Please enter the correct format");
+                            goto s1;
+                        }
                         break;
                     case 5: return;
                     // break;
@@ -52,30 +60,66 @@ namespace CaseStudyHard
         }
         public void ModifyEmployee()
         {
-            Console.WriteLine("Please enter the Employee ID");
-            int id = Convert.ToInt32(Console.ReadLine());
-            PrintEmployeeWithId(id);
-            Console.WriteLine("Please enter the updated Employee Details:");
-            Console.WriteLine("Please enter the employee name");
-            String name = Console.ReadLine();
-            Console.WriteLine("Please enter the employee age");
-            int age = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("Please enter the employee salary");
-            double salary = Convert.ToDouble(Console.ReadLine());
-            IEnumerable<Employee> emp = from employee in employeesList where employee.Id == id select employee;
-            foreach (var em in emp)
+        s1: Console.WriteLine("Please enter the Employee ID");
+            int id;
+            try
             {
-                em.Name = name;
-                em.Age = age;
-                em.Salary = salary;
+                id = Convert.ToInt32(Console.ReadLine());
+                PrintEmployeeWithId(id);
             }
+            catch (Exception e)
+            {
+                Console.WriteLine("Invalid input format Please enter the correct format");
+                goto s1;
+            }
+            IEnumerable<Employee> emp = from employee in employeesList where employee.Id == id select employee;
+            if (emp.Any())
+            {
+                Console.WriteLine("Please enter the updated Employee Details:");
+                Console.WriteLine("Please enter the employee name");
+                String name = Console.ReadLine();
+            s2: Console.WriteLine("Please enter the employee age");
+                int age;
+                try
+                {
+                    age = Convert.ToInt32(Console.ReadLine());
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Invalid input format Please enter the correct format");
+                    goto s2;
+                }
+            s3: Console.WriteLine("Please enter the employee salary");
+                double salary;
+                try
+                {
+                    salary = Convert.ToInt32(Console.ReadLine());
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Invalid input format Please enter the correct format");
+                    goto s3;
+                }
+                foreach (var em in emp)
+                {
+                    em.Name = name;
+                    em.Age = age;
+                    em.Salary = salary;
+                }
+            }
+            else
+                Console.WriteLine("No employee exists with the given Id");
+
         }
         public void PrintEmployeeWithId(int id)
         {
             Console.WriteLine("Employee Details:");
-            IEnumerable<Employee> emp = from employee in employeesList where employee.Id == id select employee;
-            foreach (var em in emp)
-                Console.WriteLine(em);
+                IEnumerable<Employee> emp = from employee in employeesList where employee.Id == id select employee;
+                if (emp.Any())
+                    foreach (var em in emp)
+                        Console.WriteLine(em);
+                else
+                    Console.WriteLine("No employee exists with the given Id");
         }
         public void PrintAllEmployees()
         {
