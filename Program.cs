@@ -12,6 +12,7 @@ namespace CaseStudyHard
         {
             EmployeePromotion employeePromotion = new EmployeePromotion();
             employeePromotion.Menu();
+
             Console.ReadKey();
         }
     }
